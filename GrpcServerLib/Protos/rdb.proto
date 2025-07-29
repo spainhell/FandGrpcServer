@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcServerLib";
+
+package rdb;
+
+// The RDB service definition
+service RdbService {
+  // Opens an RDB file and returns the number of records
+  rpc OpenRDB(OpenRDBRequest) returns (OpenRDBResponse);
+  
+  // Gets the total number of records in the opened RDB
+  rpc GetRecordsCount(Empty) returns (RecordsCountResponse);
+  
+  // Loads a specific record by number
+  rpc LoadRecord(LoadRecordRequest) returns (LoadRecordResponse);
+  
+  // Gets the chapter type of the currently loaded record
+  rpc GetChapterType(Empty) returns (ChapterTypeResponse);
+  
+  // Gets the chapter name of the currently loaded record
+  rpc GetChapterName(Empty) returns (ChapterNameResponse);
+  
+  // Gets the length of the chapter code
+  rpc GetChapterCodeLength(Empty) returns (ChapterCodeLengthResponse);
+  
+  // Gets the chapter code of the currently loaded record
+  rpc GetChapterCode(Empty) returns (ChapterCodeResponse);
+  
+  // Closes a specific record (placeholder function)
+  rpc CloseRecord(CloseRecordRequest) returns (CloseRecordResponse);
+  
+  // Clears the RDB (sets record count to 0)
+  rpc ClearRdb(Empty) returns (ClearRdbResponse);
+  
+  // Saves a new chapter with type, name, and code
+  rpc SaveChapter(SaveChapterRequest) returns (SaveChapterResponse);
+  
+  // Closes the RDB and saves the file
+  rpc CloseRdb(Empty) returns (CloseRdbResponse);
+}
+
+// Request and Response messages
+
+message Empty {}
+
+message OpenRDBRequest {
+  string rdb_name = 1;
+}
+
+message OpenRDBResponse {
+  int32 records_count = 1;
+}
+
+message RecordsCountResponse {
+  int32 count = 1;
+}
+
+message LoadRecordRequest {
+  int32 record_number = 1;
+}
+
+message LoadRecordResponse {
+  int32 result = 1; // 0 for success, -1 for error
+}
+
+message ChapterTypeResponse {
+  string chapter_type = 1;
+}
+
+message ChapterNameResponse {
+  string chapter_name = 1;
+}
+
+message ChapterCodeLengthResponse {
+  int32 length = 1;
+}
+
+message ChapterCodeResponse {
+  string chapter_code = 1;
+}
+
+message CloseRecordRequest {
+  int32 record_number = 1;
+}
+
+message CloseRecordResponse {
+  int32 result = 1;
+}
+
+message ClearRdbResponse {
+  int32 result = 1;
+}
+
+message SaveChapterRequest {
+  string chapter_type = 1;
+  string chapter_name = 2;
+  string chapter_code = 3;
+}
+
+message SaveChapterResponse {
+  int32 new_records_count = 1;
+}
+
+message CloseRdbResponse {
+  int32 final_records_count = 1;
+}

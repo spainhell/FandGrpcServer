@@ -2,12 +2,12 @@ using GrpcServerLib.Services;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenLocalhost(7877,
-        listenOptions => { listenOptions.Protocols = HttpProtocols.Http1AndHttp2; }
-    );
-});
+// builder.WebHost.ConfigureKestrel(serverOptions =>
+// {
+//     serverOptions.ListenLocalhost(7877,
+//         listenOptions => { listenOptions.Protocols = HttpProtocols.Http1AndHttp2; }
+//     );
+// });
 
 
 // Add services to the container.

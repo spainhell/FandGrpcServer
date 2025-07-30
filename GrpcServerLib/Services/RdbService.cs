@@ -6,6 +6,7 @@ namespace GrpcServerLib.Services
     {
         public override Task<OpenRDBResponse> OpenRDB(OpenRDBRequest request, ServerCallContext context)
         {
+            Console.WriteLine("Request OpenRDB: " + request.RdbName + "!");
             int chaptersCount = FandDllInterop.OpenRDB(request.RdbName);
             return Task.FromResult(new OpenRDBResponse
             {

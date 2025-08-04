@@ -9,6 +9,9 @@ namespace GrpcServerLib
     /// </summary>
     public static class FandDllInterop
     {
+        private const int CHAPTER_TYPE_LEN = 1;
+        private const int CHAPTER_NAME_LEN = 16;
+
         private const string DLL_NAME = "cppfand_dll.dll";
 
         /// <summary>
@@ -105,7 +108,7 @@ namespace GrpcServerLib
         /// <returns>Chapter type string</returns>
         public static string GetChapterTypeString()
         {
-            byte[] buffer = new byte[1024]; // Allocate sufficient buffer
+            byte[] buffer = new byte[CHAPTER_TYPE_LEN + 1]; // 1 for null terminator
             GetChapterType(buffer);
             return Encoding.UTF8.GetString(buffer).TrimEnd('\0');
         }
@@ -116,7 +119,7 @@ namespace GrpcServerLib
         /// <returns>Chapter name string</returns>
         public static string GetChapterNameString()
         {
-            byte[] buffer = new byte[1024]; // Allocate sufficient buffer
+            byte[] buffer = new byte[CHAPTER_NAME_LEN + 1]; // 1 for null terminator
             GetChapterName(buffer);
             return Encoding.Unicode.GetString(buffer).TrimEnd('\0');
         }

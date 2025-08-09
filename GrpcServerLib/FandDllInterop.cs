@@ -94,6 +94,21 @@ namespace GrpcServerLib
             [MarshalAs(UnmanagedType.LPWStr)] string chapterCode);
 
         /// <summary>
+        /// Updates a new chapter with type, name, and code
+        /// </summary>
+        /// <param name="recNr">Chapter number</param>
+        /// <param name="chapterType">Chapter type</param>
+        /// <param name="chapterName">Chapter name</param>
+        /// <param name="chapterCode">Chapter code</param>
+        /// <returns>New total number of records</returns>
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern int UpdateChapter(
+            int recNr,
+            [MarshalAs(UnmanagedType.LPWStr)] string chapterType,
+            [MarshalAs(UnmanagedType.LPWStr)] string chapterName,
+            [MarshalAs(UnmanagedType.LPWStr)] string chapterCode);
+
+        /// <summary>
         /// Closes the RDB and saves the file
         /// </summary>
         /// <returns>Final number of records</returns>
@@ -108,7 +123,7 @@ namespace GrpcServerLib
         /// <returns>Chapter type string</returns>
         public static string GetChapterTypeString()
         {
-            byte[] buffer = new byte[CHAPTER_TYPE_LEN + 1]; // 1 for null terminator
+            byte[] buffer = new byte[2 * CHAPTER_TYPE_LEN + 2]; // 2 for unicode null terminator
             GetChapterType(buffer);
             return Encoding.UTF8.GetString(buffer).TrimEnd('\0');
         }
@@ -119,7 +134,7 @@ namespace GrpcServerLib
         /// <returns>Chapter name string</returns>
         public static string GetChapterNameString()
         {
-            byte[] buffer = new byte[CHAPTER_NAME_LEN + 1]; // 1 for null terminator
+            byte[] buffer = new byte[2 * CHAPTER_NAME_LEN + 2]; // 2 for unicode null terminator
             GetChapterName(buffer);
             return Encoding.Unicode.GetString(buffer).TrimEnd('\0');
         }

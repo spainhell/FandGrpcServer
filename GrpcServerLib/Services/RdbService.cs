@@ -66,6 +66,17 @@ namespace GrpcServerLib.Services
               });
         }
 
+        public override Task<SaveChapterResponse> SaveChapter(SaveChapterRequest request, ServerCallContext context)
+        {
+            Console.WriteLine($"Request SaveChapter: '{request.ChapterNumber}'");
+            int saveResult = FandDllInterop.UpdateChapter(request.ChapterNumber, request.ChapterType, request.ChapterName, request.ChapterText);
+
+            return Task.FromResult(new SaveChapterResponse
+            {
+                TotalRecordsCount = saveResult
+            });
+        }
+
         public override Task<CloseRdbResponse> CloseRdb(Empty request, ServerCallContext context)
         {
             int result = FandDllInterop.CloseRdb();

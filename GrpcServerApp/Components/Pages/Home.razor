@@ -1,0 +1,51 @@
+﻿@page "/"
+@using System.Web
+
+@inject NavigationManager Navigation
+@inject HelpFile HelpFileService
+
+<PageTitle>Help</PageTitle>
+
+<h1>HELP</h1>
+
+@if (helptext == null)
+{
+    <p>Nahrávám...</p>
+}
+else if (helptext.Length == 0)
+{
+    <p>Nenalezeno.</p>
+}
+else
+{
+    <p style='white-space: pre;'>
+        @((MarkupString)helptext)
+    </p>
+}
+
+@code {
+    private string? helptext;
+    private string? currentUrl;
+    private string? queryString;
+
+    protected override void OnInitialized()
+    {
+        // Get the current URL
+        currentUrl = Navigation.Uri;
+
+        // Extract the query string
+        var uri = new Uri(currentUrl);
+        queryString = uri.Query;
+
+        // Parse the query string
+        var queryParameters = HttpUtility.ParseQueryString(queryString);
+
+        // Access specific keys
+        string keyValue = queryParameters["key"] ?? "root";
+
+        // Load records from the HelpFile service
+        helptext = HelpFileService.GetHelp(keyValue);
+    }
+
+}
+

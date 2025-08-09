@@ -1,0 +1,46 @@
+﻿@page "/keys"
+
+@inject HelpFile HelpFileService
+
+<PageTitle>Help</PageTitle>
+
+<h1>Kompletní nápověda</h1>
+
+@if (records == null)
+{
+    <p>Loading...</p>
+}
+else if (records.Count == 0)
+{
+    <p>No records found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var record in records)
+        {
+            <tr>
+                <td>@((MarkupString)record.Key.Replace(" ", "&nbsp"))</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<KeyValuePair<string, string>>? records;
+
+    protected override void OnInitialized()
+    {
+        // Load records from the HelpFile service
+        records = new List<KeyValuePair<string, string>>(HelpFileService.GetRecords());
+    }
+}
+
